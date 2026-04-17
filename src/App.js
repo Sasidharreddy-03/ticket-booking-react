@@ -1,25 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {useState} from "react";
+import EventDetails from "./components/EventDetails";
+import BookingForm from "./components/BookingForm";
+import BookingSummary from "./components/BookingSummary";
 
 function App() {
+  const [availableTickets, setAvailableTickets] = useState(50);
+  const handleBooking = (data) => {
+    setAvailableTickets(availableTickets - data.tickets);
+    setBookingData(data);
+  };
+  const event = {
+    name: "Tech Fest 2026",
+    department: "CSE",
+    date: "22 April 2026",
+    time: "10:00 AM",
+    venue: "Main Auditorium",
+    price: 100,
+  };
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>Ticket Booking System</h1>
+      <EventDetails event = {event} availableTickets = {availableTickets}/>
+      <BookingForm onBook = {handleBooking} />
+      {bookingData && <BookingSummary booking = {bookingData} />}
     </div>
   );
 }
-
 export default App;
