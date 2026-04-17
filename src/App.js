@@ -2,10 +2,15 @@ import React, {useState} from "react";
 import EventDetails from "./components/EventDetails";
 import BookingForm from "./components/BookingForm";
 import BookingSummary from "./components/BookingSummary";
+import "./App.css";
 
 function App() {
   const [availableTickets, setAvailableTickets] = useState(50);
   const handleBooking = (data) => {
+    if (data.tickets > availableTickets){
+      alert("Not enough tickets available");
+      return;
+    }
     setAvailableTickets(availableTickets - data.tickets);
     setBookingData(data);
   };
