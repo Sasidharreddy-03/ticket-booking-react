@@ -29,14 +29,21 @@ function App() {
 });
   };
   return (
-    <div className = "container">
-      <h1>Ticket Booking System</h1>
-      <EventDetails event = {event} availableTickets = {availableTickets}/>
-      {/* <BookingForm onBook = {handleBooking} 
-      isSoldOut = {availableTickets === 0}
-      />
-      {bookingData && <BookingSummary booking = {bookingData} />} */}
-    </div>
-  );
+  <div className="container">
+    <h1>Ticket Booking System</h1>
+
+    <EventDetails 
+      event={event} 
+      availableTickets={availableTickets}
+    />
+
+    <BookingForm 
+      onBook={handleBooking} 
+      isSoldOut={availableTickets === 0}
+    />
+
+    {bookingData && <BookingSummary booking={bookingData} />}
+  </div>
+);
 }
 export default App;
