@@ -6,14 +6,8 @@ import "./App.css";
 
 function App() {
   const [availableTickets, setAvailableTickets] = useState(50);
-  const handleBooking = (data) => {
-    if (data.tickets > availableTickets){
-      alert("Not enough tickets available");
-      return;
-    }
-    setAvailableTickets(availableTickets - data.tickets);
-    setBookingData(data);
-  };
+  const [bookingData, setBookingData] = useState(null);
+
   const event = {
     name: "Tech Fest 2026",
     department: "CSE",
@@ -22,12 +16,26 @@ function App() {
     venue: "Main Auditorium",
     price: 100,
   };
+  const handleBooking = (data) => {
+    if (data.tickets > availableTickets){
+      alert("Not enough tickets available");
+      return;
+    }
+    setAvailableTickets(availableTickets - data.tickets);
+    setBookingData({
+  ...data,
+  eventName: event.name,
+  price: event.price
+});
+  };
   return (
-    <div>
+    <div className = "container">
       <h1>Ticket Booking System</h1>
       <EventDetails event = {event} availableTickets = {availableTickets}/>
-      <BookingForm onBook = {handleBooking} />
-      {bookingData && <BookingSummary booking = {bookingData} />}
+      {/* <BookingForm onBook = {handleBooking} 
+      isSoldOut = {availableTickets === 0}
+      />
+      {bookingData && <BookingSummary booking = {bookingData} />} */}
     </div>
   );
 }
