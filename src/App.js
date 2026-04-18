@@ -2,12 +2,17 @@ import React, {useState} from "react";
 import EventDetails from "./components/EventDetails";
 import BookingForm from "./components/BookingForm";
 import BookingSummary from "./components/BookingSummary";
+import Login from "./components/Login";
 import "./App.css";
 
 function App() {
   const [availableTickets, setAvailableTickets] = useState(50);
   const [bookingData, setBookingData] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+  const handleLogin = () => {
+  setIsLoggedIn(true);
+};
   const event = {
     name: "Tech Fest 2026",
     department: "CSE",
@@ -30,19 +35,22 @@ function App() {
   };
   return (
   <div className="container">
-    <h1>Ticket Booking System</h1>
+    {!isLoggedIn ? (
+      <Login onLogin={handleLogin} />
+    ) : (
+      <>
+        <h1>Ticket Booking System</h1>
 
-    <EventDetails 
-      event={event} 
-      availableTickets={availableTickets}
-    />
+        <EventDetails event={event} availableTickets={availableTickets} />
 
-    <BookingForm 
-      onBook={handleBooking} 
-      isSoldOut={availableTickets === 0}
-    />
+        <BookingForm
+          onBook={handleBooking}
+          isSoldOut={availableTickets === 0}
+        />
 
-    {bookingData && <BookingSummary booking={bookingData} />}
+        {bookingData && <BookingSummary booking={bookingData} />}
+      </>
+    )}
   </div>
 );
 }

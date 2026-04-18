@@ -27,7 +27,7 @@ function BookingForm({ onBook , isSoldOut}) {
 
     if (!form.tickets) {
       err.tickets = "Number of tickets required";
-    } else if (form.tickets <= 0) {
+    } else if (Number(form.tickets) <= 0) {
       err.tickets = "Tickets must be greater than 0";
     }
 
@@ -38,6 +38,7 @@ function BookingForm({ onBook , isSoldOut}) {
     e.preventDefault();
     if(isSoldOut) {
       alert("Tickets are sold out!");
+      return;
     }
     const err = validate();
 
@@ -51,6 +52,11 @@ function BookingForm({ onBook , isSoldOut}) {
     });
 
     setForm({ name: "", email: "", dept: "", tickets: "" });
+    setErrors({});
+  };
+
+  const handleReset = () => {
+    setForm({name: "", email: "", dept: "", tickets: ""});
     setErrors({});
   };
 
@@ -106,6 +112,7 @@ function BookingForm({ onBook , isSoldOut}) {
         <button type="submit" disabled= {isSoldOut}>
           {isSoldOut ? "Sold Out" : "Book Now"}
         </button>
+        <button type = "button" onClick = {handleReset}>Reset</button>
       </form>
     </div>
   );
