@@ -1,6 +1,8 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Login({ onLogin }) {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -8,9 +10,9 @@ function Login({ onLogin }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // simple dummy login
     if (email === "admin@gmail.com" && password === "1234") {
       onLogin();
+      navigate("/event");
     } else {
       setError("Invalid credentials");
     }
@@ -25,19 +27,27 @@ function Login({ onLogin }) {
           type="text"
           placeholder="Email"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(e) => {
+            setEmail(e.target.value);
+            setError(""); // optional UX improvement
+          }}
         />
 
         <input
           type="password"
           placeholder="Password"
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={(e) => {
+            setPassword(e.target.value);
+            setError(""); // optional UX improvement
+          }}
         />
 
         <p className="error">{error}</p>
 
-        <button type="submit">Login</button>
+        <button type="submit" disabled={!email || !password}>
+          Login
+        </button>
       </form>
     </div>
   );

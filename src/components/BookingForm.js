@@ -1,13 +1,18 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-function BookingForm({ onBook , isSoldOut}) {
+function BookingForm({ onBook, isSoldOut }) {
+  const navigate = useNavigate();
+
   const [form, setForm] = useState({
     name: "",
     email: "",
     dept: "",
     tickets: ""
   });
+
   const [errors, setErrors] = useState({});
+
   const validate = () => {
     let err = {};
 
@@ -36,32 +41,40 @@ function BookingForm({ onBook , isSoldOut}) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if(isSoldOut) {
+
+    if (isSoldOut) {
       alert("Tickets are sold out!");
       return;
     }
+
     const err = validate();
 
     if (Object.keys(err).length > 0) {
       setErrors(err);
       return;
     }
+
+    // send data to App.js
     onBook({
       ...form,
       tickets: Number(form.tickets)
     });
 
+    // ✅ navigate to summary page
+    navigate("/summary");
+
+    // reset form
     setForm({ name: "", email: "", dept: "", tickets: "" });
     setErrors({});
   };
 
   const handleReset = () => {
-    setForm({name: "", email: "", dept: "", tickets: ""});
+    setForm({ name: "", email: "", dept: "", tickets: "" });
     setErrors({});
   };
 
   return (
-    <div className = "card">
+    <div className="card">
       <h2>Book Tickets</h2>
 
       <form onSubmit={handleSubmit}>
@@ -101,6 +114,7 @@ function BookingForm({ onBook , isSoldOut}) {
         {/* Tickets */}
         <input
           type="number"
+          min="1"
           placeholder="Tickets"
           value={form.tickets}
           onChange={(e) =>
@@ -109,10 +123,14 @@ function BookingForm({ onBook , isSoldOut}) {
         />
         <p className="error">{errors.tickets}</p>
 
-        <button type="submit" disabled= {isSoldOut}>
+        {/* Buttons */}
+        <button type="submit" disabled={isSoldOut}>
           {isSoldOut ? "Sold Out" : "Book Now"}
         </button>
-        <button type = "button" onClick = {handleReset}>Reset</button>
+
+        <button type="button" onClick={handleReset}>
+          Reset
+        </button>
       </form>
     </div>
   );

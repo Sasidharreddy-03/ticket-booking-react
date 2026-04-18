@@ -60,3 +60,7 @@ button:hover {
   background-color: #d4edda;
   border-left: 5px solid green;
 }
+
+.success button {
+  margin: 5px;
+}
